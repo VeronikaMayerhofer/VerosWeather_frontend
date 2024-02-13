@@ -1,0 +1,19 @@
+.container {
+    display: flex
+}
+
+.left-component {
+    float: left;
+    width: 50%;
+}
+
+.right-component {
+    float: right;
+    width: 50%;
+}
+
+.middle-component {
+    float: none;
+    width: 70%;
+}
+
