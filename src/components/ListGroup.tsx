@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-interface ListItem {
-    key: string;
+interface ListItem<T,> {
+    key: T;
     value: string;
 }
-interface Props {
+interface Props<T extends string,> {
   heading: string;
-  items: ListItem[];
-  onSelectItem: (key: string) => void;
+  items: ListItem<T>[];
+  onSelectItem: (key: T) => void;
 }
 
-const ListGroup: React.FC<Props> = ({ heading, items, onSelectItem }) => {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+const ListGroup = <T extends string>({ heading, items, onSelectItem }: Props<T>) => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
     <>

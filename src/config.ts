@@ -1,6 +1,10 @@
+export type WeatherVariableKey = keyof typeof CONFIG.weatherVariables;
+export type CityKey = keyof typeof CONFIG.locations
+
+
 export const CONFIG = {
-    "weatherVariables": {
-        "temperature": {
+    weatherVariables: {
+        temperature: {
             "url_name": "temperature_2m",
             "name": "Temperature",
             "hourly": true,
@@ -8,7 +12,7 @@ export const CONFIG = {
             "max_value": 40,
             "min_value": -20
         },
-        "apparentTemperature": {
+        apparentTemperature: {
             "url_name": "apparent_temperature",
             "name": "Apparent Temperature",
             "hourly": true,
@@ -16,7 +20,7 @@ export const CONFIG = {
             "max_value": 40,
             "min_value": -20
         },
-        "relativeHumidity": {
+        relativeHumidity: {
             "url_name": "relative_humidity_2m",
             "name": "Relative Humidity",
             "hourly": true,
@@ -24,7 +28,7 @@ export const CONFIG = {
             "max_value": 101,
             "min_value": 50
         },
-        "precipitationProbability": {
+        precipitationProbability: {
             "url_name": "precipitation_probability",
             "name": "Precipitation Probability",
             "hourly": true,
@@ -32,7 +36,7 @@ export const CONFIG = {
             "max_value": 101,
             "min_value": 0
         },
-        "rain": {
+        rain: {
             "url_name": "rain",
             "name": "Rain",
             "hourly": true,
@@ -40,7 +44,7 @@ export const CONFIG = {
             "max_value": 6,
             "min_value": 0
         },
-        "snow": {
+        snow: {
             "url_name": "snowfall",
             "name": "Snow",
             "hourly": true,
@@ -122,4 +126,4 @@ export const CONFIG = {
             "min_value": 0
         }
     }
-}
+} as const;

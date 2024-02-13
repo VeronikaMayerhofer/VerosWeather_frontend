@@ -2,8 +2,9 @@ import ListGroup from "./components/ListGroup.tsx";
 import "./App.css";
 import {useEffect, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.css';
-import {CONFIG} from "./config.ts";
+import {CityKey, CONFIG, WeatherVariableKey} from "./config.ts";
 import PlotData from "./components/PlotData.tsx";
+import {entries} from "./utils.ts";
 
 
 interface WeatherData {
@@ -11,56 +12,42 @@ interface WeatherData {
 }
 
 function App() {
-
-
-    const [data, setData] = useState<WeatherData[]>({'2024-02-13T00:00:00': 0})
-    const [weatherVariable, setWeatherVariable] = useState<string>('rain')
-    const [cityVariable, setCityVariable] = useState<string>('oslo')
+    const [data, setData] = useState<WeatherData>({})
+    const [weatherVariable, setWeatherVariable] = useState<WeatherVariableKey>('temperature')
+    const [cityVariable, setCityVariable] = useState<CityKey>('wuerzburg')
 
     const cityItems = CONFIG.locations;
     const cityHeading = "Cities";
-    const handleSelectCityItem = (item: string) => {
+    const handleSelectCityItem = (item: CityKey) => {
         setCityVariable(item);
     };
 
     const weatherVariableItems = CONFIG.weatherVariables;
     const weatherVariableHeadings = "Weather Data"
-    const handleSelectWeatherVariableItem = (item: string) => {
+    const handleSelectWeatherVariableItem = (item: WeatherVariableKey) => {
         setWeatherVariable(item);
     };
-    //const start_date = '2024-02-12'
-    //const end_date = '2024-02-14'
-
-
-
-    console.log('city var: ' + cityVariable)
-    console.log('weather var:' + weatherVariable)
-    const cities = Object.entries(cityItems).map(([key, value]) => ({
+    const cities = entries(cityItems).map(([key, value]) => ({
         key: key,
         value: value.name
     }))
-    const weatherVariables = Object.entries(weatherVariableItems).map(([key, value]) => ({
+
+    const weatherVariables = entries(weatherVariableItems).map(([key, value]) => ({
         key: key,
         value: value.name
     }))
+    const currentWeatherVariable = weatherVariableItems[weatherVariable];
 
     useEffect(() => {
         const [latitude, longitude] = cityItems[cityVariable].location
-        console.log(latitude, longitude)
-        console.log(`http://localhost:8000/weather/${weatherVariable}?latitude=${latitude}&longitude=${longitude}`)
-        fetch(`http://localhost:8000/weather/${weatherVariable}?latitude=${latitude}&longitude=${longitude}`)
+        fetch(`http://localhost:8000/weather/${currentWeatherVariable.url_name}?latitude=${latitude}&longitude=${longitude}`)
             .then((response) => response.json())
             .then((json) => setData(json));
-    }, []);
+    }, [cityVariable, weatherVariable]);
 
+    const x_data = Object.keys(data);
+    const y_data = Object.values(data);
 
-    const y_data = new Array<number>
-    const x_data = new Array<string>
-    Object.entries(data).map(([date, value]) => {
-        x_data.push(date), y_data.push(value)
-    })
-    console.log(y_data)
-    console.log(x_data)
 
     return (
         <>
